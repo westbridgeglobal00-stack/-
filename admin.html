@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#071a33">
+  <title>Westbridge Global — Admin Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="westbridge-logo.png">
+  <link rel="stylesheet" href="styles.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script defer src="supabase-config.js"></script><script defer src="admin.js"></script>
+</head>
+<body class="admin-body">
+  <div class="admin-shell">
+    <aside class="sidebar">
+      <a class="brand sidebar-brand" href="index.html"><img class="brand-logo" src="westbridge-logo.png" alt="Westbridge Global logo"><span>WESTBRIDGE <b>GLOBAL</b><small>CONTROL CENTER</small></span></a>
+      <div class="admin-label">WORKSPACE</div>
+      <button class="side-link active" data-panel="overview">▦ <span>Overview</span></button>
+      <button class="side-link" data-panel="products">◇ <span>Products</span></button>
+      <button class="side-link" data-panel="categories">▤ <span>Categories</span></button>
+      <button class="side-link" data-panel="orders">▣ <span>Orders</span></button>
+      <div class="sidebar-bottom"><a href="index.html">↗ View public store</a><button id="adminSignOut">Sign out</button></div>
+    </aside>
+    <main class="admin-main">
+      <header class="admin-topbar"><div><span class="eyebrow">WESTBRIDGE GLOBAL / ADMIN</span><h1 id="panelTitle">Overview</h1></div><div class="admin-user"><img class="admin-avatar-logo" src="westbridge-logo.png" alt="Westbridge Global logo"><span><b id="adminEmail">Checking access…</b><small>Administrator</small></span></div></header>
+      <section id="adminLogin" class="admin-login hidden"><div class="login-card"><span class="eyebrow">RESTRICTED AREA</span><h2>Administrator sign in</h2><p class="muted">Use the account that has been granted the admin role in Supabase.</p><form id="adminLoginForm" class="stack-form"><label>Email<input id="adminEmailInput" type="email" required></label><label>Password<input id="adminPasswordInput" type="password" required></label><button class="primary-button full-button">Sign in securely</button></form><p id="adminLoginMessage" class="form-message"></p><a href="index.html" class="back-link">← Return to storefront</a></div></section>
+      <div id="adminContent" class="hidden">
+        <section class="admin-panel active" id="panel-overview">
+          <div class="stat-grid"><article class="stat-card"><span>Published products</span><strong id="statProducts">—</strong><small>Visible in public store</small></article><article class="stat-card"><span>Categories</span><strong id="statCategories">—</strong><small>Marketplace departments</small></article><article class="stat-card"><span>Total orders</span><strong id="statOrders">—</strong><small>Customer order requests</small></article><article class="stat-card"><span>Pending orders</span><strong id="statPending">—</strong><small>Awaiting review</small></article></div>
+          <div class="panel-card"><div class="panel-card-heading"><div><span class="eyebrow">LATEST ACTIVITY</span><h2>Recent orders</h2></div><button class="outline-button" data-go="orders">View all orders</button></div><div id="recentOrders" class="table-wrap"></div></div>
+          <div class="notice-box"><b>Launch checklist</b><p>Before accepting real payments, connect a supported payment provider, verify payment callbacks server-side, configure delivery operations, and publish your returns and privacy policies.</p></div>
+        </section>
+        <section class="admin-panel" id="panel-products">
+          <div class="panel-card"><div class="panel-card-heading"><div><span class="eyebrow">CATALOGUE MANAGEMENT</span><h2 id="productFormTitle">Add a product</h2></div></div>
+            <form id="productForm" class="admin-form"><input type="hidden" id="productId"><label>Product name<input id="productName" required maxlength="180"></label><label>Category<select id="productCategory" required></select></label><label>Price (NGN)<input id="productPrice" type="number" min="0" step="0.01" required></label><label>Compare-at price (optional)<input id="productCompare" type="number" min="0" step="0.01"></label><label>Stock quantity<input id="productStock" type="number" min="0" step="1" value="0" required></label><label>Image URL<input id="productImage" type="url" placeholder="https://..." ></label><label class="wide-field">Description<textarea id="productDescription" rows="3" maxlength="5000"></textarea></label><label class="check-label"><input id="productFeatured" type="checkbox"> Feature on homepage</label><label class="check-label"><input id="productActive" type="checkbox" checked> Publish product</label><div class="form-actions wide-field"><button class="primary-button" id="saveProductButton">Save product</button><button class="secondary-button" type="button" id="resetProductForm">Clear form</button><span id="productFormMessage" class="form-message"></span></div></form>
+          </div>
+          <div class="panel-card"><div class="panel-card-heading"><div><span class="eyebrow">YOUR CATALOGUE</span><h2>Manage products</h2></div><input id="adminProductSearch" class="compact-search" placeholder="Search products"></div><div id="adminProductsTable" class="table-wrap"></div></div>
+        </section>
+        <section class="admin-panel" id="panel-categories">
+          <div class="panel-card"><div class="panel-card-heading"><div><span class="eyebrow">MARKETPLACE STRUCTURE</span><h2>Manage categories</h2></div></div><form id="categoryForm" class="inline-form"><label>Category name<input id="categoryName" required maxlength="80" placeholder="e.g. Electronics"></label><button class="primary-button">Add category</button></form><p id="categoryMessage" class="form-message"></p><div id="categoriesTable" class="table-wrap"></div></div>
+        </section>
+        <section class="admin-panel" id="panel-orders">
+          <div class="panel-card"><div class="panel-card-heading"><div><span class="eyebrow">CUSTOMER ACTIVITY</span><h2>Order management</h2></div><button id="refreshOrders" class="outline-button">Refresh</button></div><div id="ordersTable" class="table-wrap"></div></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div id="adminToast" class="toast" role="status"></div>
+</body>
+</html>
